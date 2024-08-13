@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drum Sheet Music Store</title>
+    <!-- Include Stripe.js library -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        /* CSS styling */
+    </style>
+</head>
+<body>
+    <h1>Welcome to Drum Sheet Music Store</h1>
+    <div id="product-list">
+        <!-- Display drum sheet music products dynamically -->
+    </div>
+    <div id="checkout-button-container">
+        <!-- Stripe checkout button -->
+        <button id="checkout-button">Checkout</button>
+    </div>
+
+    <script>
+        // JavaScript code to fetch drum sheet music products and handle checkout
+        // You can use Fetch API or other techniques to fetch data from your backend
+        // and manipulate the DOM to display product information and handle checkout
+
+        // Example of using Stripe.js to handle checkout
+        document.getElementById('checkout-button').addEventListener('click', async function () {
+            const response = await fetch('/create-checkout-session', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    productId: 'product_id_here', // Replace with actual product ID
+                    price: 1000 // Replace with actual price in cents
+                })
+            });
+            const session = await response.json();
+            const stripe = Stripe('your_stripe_public_key_here'); // Replace with your actual Stripe public key
+            stripe.redirectToCheckout({
+                sessionId: session.sessionId
+            });
+        });
+    </script>
+</body>
+</html>
